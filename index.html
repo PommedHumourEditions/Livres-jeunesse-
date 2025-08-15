@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande de Livres - Maison d'Édition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .header {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+
+    .header p {
+        font-size: 1.1em;
+        opacity: 0.9;
+    }
+
+    .form-content {
+        padding: 40px;
+    }
+
+    .currency-selector {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        border: 2px solid #e9ecef;
+    }
+
+    .currency-selector h3 {
+        margin-bottom: 15px;
+        color: #2c3e50;
+    }
+
+    .currency-options {
+        display: flex;
+        gap: 20px;
+    }
+
+    .currency-option {
+        flex: 1;
+    }
+
+    .currency-option input[type="radio"] {
+        display: none;
+    }
+
+    .currency-option label {
+        display: block;
+        padding: 15px 20px;
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    .currency-option input[type="radio"]:checked + label {
+        background: #3498db;
+        color: white;
+        border-color: #3498db;
+        transform: translateY(-2px);
+    }
+
+    .books-section {
+        margin-bottom: 30px;
+    }
+
+    .book-item {
+        background: #f8f9fa;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+    }
+
+    .book-item:hover {
+        border-color: #3498db;
+        transform: translateY(-2px);
+    }
+
+    .book-header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .book-title {
+        font-size: 1.4em;
+        font-weight: 700;
+        color: #2c3e50;
+        flex: 1;
+    }
+
+    .book-price {
+        font-size: 1.3em;
+        font-weight: 600;
+        color: #e74c3c;
+        margin-left: 20px;
+    }
+
+    .quantity-section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .quantity-section label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .quantity-input {
+        width: 80px;
+        padding: 10px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 1.1em;
+        text-align: center;
+        transition: border-color 0.3s ease;
+    }
+
+    .quantity-input:focus {
+        outline: none;
+        border-color: #3498db;
+    }
+
+    .subtotal {
+        text-align: right;
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #27ae60;
+    }
+
+    .total-section {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .total-section h3 {
+        font-size: 1.8em;
+        margin-bottom: 10px;
+    }
+
+    .total-amount {
+        font-size: 2.5em;
+        font-weight: 700;
+    }
+
+    .customer-info {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .customer-info h3 {
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 1em;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #3498db;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        height: 100px;
+    }
+
+    .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .radio-option {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    .radio-option:hover {
+        border-color: #3498db;
+        background: #f8f9ff;
+    }
+
+    .radio-option input[type="radio"] {
+        display: none;
+    }
+
+    .radio-custom {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #bdc3c7;
+        border-radius: 50%;
+        margin-right: 12px;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .radio-option input[type="radio"]:checked + .radio-custom {
+        border-color: #3498db;
+        background: #3498db;
+    }
+
+    .radio-option input[type="radio"]:checked + .radio-custom::after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .radio-option input[type="radio"]:checked ~ span:not(.radio-custom) {
+        color: #3498db;
+        font-weight: 600;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 18px;
+        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.3em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+    }
+
+    .submit-btn:disabled {
+        background: #bdc3c7;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    @media (max-width: 768px) {
+        .currency-options {
+            flex-direction: column;
+        }
+        
+        .book-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .book-price {
+            margin-left: 0;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            padding: 10px;
+            font-size: 0.9em;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Commande de Livres</h1>
+            <p>Sélectionnez vos ouvrages et votre devise préférée</p>
+        </div>
+
+```
+    <form class="form-content" id="bookOrderForm" action="https://formspree.io/f/mrbldvrl" method="POST">
+        <!-- Sélection de devise -->
+        <div class="currency-selector">
+            <h3>💱 Devise de commande</h3>
+            <div class="currency-options">
+                <div class="currency-option">
+                    <input type="radio" id="kmf" name="currency" value="KMF" checked>
+                    <label for="kmf">🇰🇲 Francs Comoriens (KMF)</label>
+                </div>
+                <div class="currency-option">
+                    <input type="radio" id="eur" name="currency" value="EUR">
+                    <label for="eur">🇪🇺 Euros (€)</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section des livres -->
+        <div class="books-section">
+            <div class="book-item">
+                <div class="book-header">
+                    <div class="book-title">MAIMBIYO</div>
+                    <div class="book-price" id="price1">13 500 KMF</div>
+                </div>
+                <div class="quantity-section">
+                    <label for="qty1">Quantité :</label>
+                    <input type="number" id="qty1" name="quantite_maimbiyo" class="quantity-input" min="0" max="99" value="0">
+                </div>
+                <div class="subtotal" id="subtotal1">Sous-total : 0 KMF</div>
+            </div>
+
+            <div class="book-item">
+                <div class="book-header">
+                    <div class="book-title">IDI MBARAKA</div>
+                    <div class="book-price" id="price2">6 000 KMF</div>
+                </div>
+                <div class="quantity-section">
+                    <label for="qty2">Quantité :</label>
+                    <input type="number" id="qty2" name="quantite_idi_mbaraka" class="quantity-input" min="0" max="99" value="0">
+                </div>
+                <div class="subtotal" id="subtotal2">Sous-total : 0 KMF</div>
+            </div>
+
+            <div class="book-item">
+                <div class="book-header">
+                    <div class="book-title">DJIMBO NA COMPTINES</div>
+                    <div class="book-price" id="price3">11 000 KMF</div>
+                </div>
+                <div class="quantity-section">
+                    <label for="qty3">Quantité :</label>
+                    <input type="number" id="qty3" name="quantite_djimbo" class="quantity-input" min="0" max="99" value="0">
+                </div>
+                <div class="subtotal" id="subtotal3">Sous-total : 0 KMF</div>
+            </div>
+        </div>
+
+        <!-- Section Total -->
+        <div class="total-section">
+            <h3>💰 Total de la commande</h3>
+            <div class="total-amount" id="totalAmount">0 KMF</div>
+        </div>
+
+        <!-- Informations client -->
+        <div class="customer-info">
+            <h3>👤 Vos informations</h3>
+            <div class="form-group">
+                <label for="customerName">Nom et Prénom *</label>
+                <input type="text" id="customerName" name="nom_prenom" required>
+            </div>
+            <div class="form-group">
+                <label for="customerEmail">Email *</label>
+                <input type="email" id="customerEmail" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="customerPhone">Téléphone</label>
+                <input type="tel" id="customerPhone" name="telephone">
+            </div>
+            <div class="form-group" id="addressField" style="display: none;">
+                <label for="customerAddress">Adresse de livraison *</label>
+                <textarea id="customerAddress" name="adresse" placeholder="Adresse complète pour la livraison..."></textarea>
+            </div>
+        </div>
+
+        <!-- Questions supplémentaires -->
+        <div class="customer-info">
+            <h3>🚚 Mode de livraison souhaité</h3>
+            <div class="form-group">
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="delivery" value="postal" required>
+                        <span class="radio-custom"></span>
+                        📮 Envoi postal
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="delivery" value="proche" required>
+                        <span class="radio-custom"></span>
+                        👥 Remettre à un proche
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="delivery" value="librairie" required>
+                        <span class="radio-custom"></span>
+                        🏪 Récupérer en librairie (Moroni)
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="delivery" value="relais" required>
+                        <span class="radio-custom"></span>
+                        📍 Récupérer dans un point relais
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="customer-info">
+            <h3>💳 Mode de paiement souhaité</h3>
+            <div class="form-group">
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="payment" value="paypal" required>
+                        <span class="radio-custom"></span>
+                        💙 PayPal
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="payment" value="mvola" required>
+                        <span class="radio-custom"></span>
+                        📱 Mvola
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="payment" value="virement" required>
+                        <span class="radio-custom"></span>
+                        🏦 Virement bancaire
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="payment" value="money-transfer" required>
+                        <span class="radio-custom"></span>
+                        💸 MoneyGram / Western Union
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="payment" value="especes" required>
+                        <span class="radio-custom"></span>
+                        💵 Espèces
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="customer-info">
+            <h3>📞 Mode de contact privilégié</h3>
+            <div class="form-group">
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="contact" value="telephone" required>
+                        <span class="radio-custom"></span>
+                        📞 Téléphone
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="contact" value="mail" required>
+                        <span class="radio-custom"></span>
+                        ✉️ Mail
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="customer-info">
+            <h3>🆕 Êtes-vous un nouveau client ?</h3>
+            <div class="form-group">
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="newClient" value="nouveau" required>
+                        <span class="radio-custom"></span>
+                        🎉 Oui, c'est ma première fois !
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="newClient" value="retour" required>
+                        <span class="radio-custom"></span>
+                        🔄 Non, je suis de retour !
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="customer-info">
+            <h3>🔍 Comment nous connaissez-vous ?</h3>
+            <div class="form-group">
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="discovery" value="reseaux" required>
+                        <span class="radio-custom"></span>
+                        📱 Les réseaux sociaux
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="discovery" value="bouche-oreille" required>
+                        <span class="radio-custom"></span>
+                        👨‍👩‍👧‍👦 Le bouche à oreille (amis/famille)
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="discovery" value="evenement" required>
+                        <span class="radio-custom"></span>
+                        🎭 Événement culturel
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="discovery" value="librairie-decouverte" required>
+                        <span class="radio-custom"></span>
+                        📚 Librairie
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="discovery" value="autre" required>
+                        <span class="radio-custom"></span>
+                        ✨ Autre :
+                    </label>
+                </div>
+                <div class="form-group" id="autreField" style="display: none; margin-top: 15px;">
+                    <input type="text" id="autreDetail" name="decouverte_autre" placeholder="Précisez...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Champs cachés pour Formspree -->
+        <input type="hidden" name="devise_choisie" id="hiddenCurrency">
+        <input type="hidden" name="total_commande" id="hiddenTotal">
+        <input type="hidden" name="detail_commande" id="hiddenDetails">
+
+        <button type="submit" class="submit-btn">📝 Finaliser la commande</button>
+    </form>
+</div>
+
+<script>
+    // Prix des livres
+    const books = {
+        1: { titleFR: 'MAIMBIYO', kmf: 13500, eur: 27.50 },
+        2: { titleFR: 'IDI MBARAKA', kmf: 6000, eur: 12.50 },
+        3: { titleFR: 'DJIMBO NA COMPTINES', kmf: 11000, eur: 22 }
+    };
+
+    // Formatage des nombres
+    function formatPrice(price, currency) {
+        if (currency === 'KMF') {
+            return new Intl.NumberFormat('fr-FR').format(price) + ' KMF';
+        } else {
+            return price.toFixed(2).replace('.', ',') + ' €';
+        }
+    }
+
+    // Mise à jour des prix selon la devise
+    function updatePrices() {
+        const currency = document.querySelector('input[name="currency"]:checked').value;
+        
+        for (let i = 1; i <= 3; i++) {
+            const price = currency === 'KMF' ? books[i].kmf : books[i].eur;
+            document.getElementById(`price${i}`).textContent = formatPrice(price, currency);
+        }
+        
+        calculateTotals();
+    }
+
+    // Calcul des totaux
+    function calculateTotals() {
+        const currency = document.querySelector('input[name="currency"]:checked').value;
+        let grandTotal = 0;
+
+        for (let i = 1; i <= 3; i++) {
+            const quantity = parseInt(document.getElementById(`qty${i}`).value) || 0;
+            const price = currency === 'KMF' ? books[i].kmf : books[i].eur;
+            const subtotal = quantity * price;
+            
+            document.getElementById(`subtotal${i}`).textContent = 
+                `Sous-total : ${formatPrice(subtotal, currency)}`;
+            
+            grandTotal += subtotal;
+        }
+
+        document.getElementById('totalAmount').textContent = formatPrice(grandTotal, currency);
+        
+        // Activer/désactiver le bouton selon le total
+        const submitBtn = document.querySelector('.submit-btn');
+        if (grandTotal > 0) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '📝 Finaliser la commande';
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sélectionnez au moins un livre';
+        }
+    }
+
+    // Gestion du champ adresse selon le mode de livraison
+    function toggleAddressField() {
+        const postalDelivery = document.querySelector('input[name="delivery"][value="postal"]');
+        const addressField = document.getElementById('addressField');
+        const addressTextarea = document.getElementById('customerAddress');
+        
+        if (postalDelivery && postalDelivery.checked) {
+            addressField.style.display = 'block';
+            addressTextarea.required = true;
+        } else {
+            addressField.style.display = 'none';
+            addressTextarea.required = false;
+            addressTextarea.value = ''; // Vider le champ si pas nécessaire
+        }
+    }
+
+    // Gestion du champ "Autre" pour la découverte
+    function toggleAutreField() {
+        const autreRadio = document.querySelector('input[name="discovery"][value="autre"]');
+        const autreField = document.getElementById('autreField');
+        
+        if (autreRadio && autreRadio.checked) {
+            autreField.style.display = 'block';
+        } else {
+            autreField.style.display = 'none';
+            document.getElementById('autreDetail').value = '';
+        }
+    }
+
+    // Gestion de la soumission du formulaire
+    function handleSubmit(e) {
+        e.preventDefault();
+        
+        const currency = document.querySelector('input[name="currency"]:checked').value;
+        const customerName = document.getElementById('customerName').value;
+        
+        // Calculer le total et les détails pour l'email
+        let grandTotal = 0;
+        let orderDetails = '';
+        
+        for (let i = 1; i <= 3; i++) {
+            const quantity = parseInt(document.getElementById(`qty${i}`).value) || 0;
+            if (quantity > 0) {
+                const price = currency === 'KMF' ? books[i].kmf : books[i].eur;
+                const subtotal = quantity * price;
+                grandTotal += subtotal;
+                
+                orderDetails += `${books[i].titleFR}: ${quantity} x ${formatPrice(price, currency)} = ${formatPrice(subtotal, currency)}\n`;
+            }
+        }
+        
+        // Remplir les champs cachés pour Formspree
+        document.getElementById('hiddenCurrency').value = currency;
+        document.getElementById('hiddenTotal').value = formatPrice(grandTotal, currency);
+        document.getElementById('hiddenDetails').value = orderDetails;
+        
+        // Vérifier qu'au moins un livre est commandé
+        if (grandTotal === 0) {
+            alert('Veuillez sélectionner au moins un livre avant de finaliser votre commande.');
+            return;
+        }
+        
+        // Soumettre le formulaire via Formspree
+        const formData = new FormData(document.getElementById('bookOrderForm'));
+        
+        fetch('https://formspree.io/f/mrbldvrl', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                showSuccessMessage(customerName, grandTotal, currency);
+                document.getElementById('bookOrderForm').reset();
+                updatePrices(); // Réinitialiser l'affichage
+            } else {
+                throw new Error('Erreur lors de l\'envoi');
+            }
+        }).catch(error => {
+            alert('Erreur lors de l\'envoi de la commande. Veuillez réessayer ou nous contacter directement à editions.pommedhumour@gmail.com');
+        });
+    }
+    
+    // Message de succès personnalisé
+    function showSuccessMessage(customerName, total, currency) {
+        alert(`✅ Merci ${customerName} !\n\nVotre commande de ${formatPrice(total, currency)} a été envoyée avec succès.\n\nNous vous recontacterons rapidement pour confirmer et organiser la livraison.\n\n📧 editions.pommedhumour@gmail.com`);
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        // Écouteurs pour les devises
+        document.querySelectorAll('input[name="currency"]').forEach(radio => {
+            radio.addEventListener('change', updatePrices);
+        });
+
+        // Écouteurs pour les quantités
+        for (let i = 1; i <= 3; i++) {
+            document.getElementById(`qty${i}`).addEventListener('input', calculateTotals);
+        }
+
+        // Écouteurs pour les options de découverte
+        document.querySelectorAll('input[name="discovery"]').forEach(radio => {
+            radio.addEventListener('change', toggleAutreField);
+        });
+
+        // Écouteurs pour le mode de livraison
+        document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+            radio.addEventListener('change', toggleAddressField);
+        });
+
+        // Écouteur pour le formulaire
+        document.getElementById('bookOrderForm').addEventListener('submit', handleSubmit);
+
+        // Initialisation
+        updatePrices();
+    });
+</script>
+```
+
+</body>
+</html>
